@@ -26,7 +26,7 @@ public class ChatCompletionRequest {
     private boolean stream;
 
     @JsonProperty("top_p")
-    private boolean top_p;
+    private double top_p;
 
     @JsonProperty("repetition_penalty")
     private double repetition_penalty;
