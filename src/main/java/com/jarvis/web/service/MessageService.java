@@ -22,4 +22,8 @@ public class MessageService {
         chatMessage.setContent(systemPrompt);
         request.getMessages().addFirst(chatMessage);
     }
+
+    public void addTools(ChatCompletionRequest request) {
+        
+    }
 }

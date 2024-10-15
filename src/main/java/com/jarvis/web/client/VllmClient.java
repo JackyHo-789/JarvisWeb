@@ -44,14 +44,14 @@ public class VllmClient {
                 final HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     try (InputStream inputStream = entity.getContent()) {
-                        Stream<List<ChatCompletionResponseChoice>> Result = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+                        Stream<ChatCompletionResponse> Result = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
                                 .lines().map(line -> {
                                     if (!line.isEmpty() && !line.equals("data: [DONE]")) {
                                         ChatCompletionResponse dto = mapLineToDTO(line);
                                         if (dto == null) {
                                             throw new IllegalArgumentException("dto cannot be null");
                                         }
-                                        return dto.getChoices();
+                                        return dto;
                                     }
                                     return null;
                                 })

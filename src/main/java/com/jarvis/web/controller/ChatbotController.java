@@ -36,6 +36,7 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/v1/chat/completions")
+@CrossOrigin(value = "*")
 public class ChatbotController {
     @Autowired
     private VllmClient client;
@@ -46,6 +47,7 @@ public class ChatbotController {
     public ResponseBodyEmitter handleRequest(@RequestBody ChatCompletionRequest request) throws JsonProcessingException {
         try {
             service.process(request);
+            System.out.println("sa:" + request.toString());
             return client.handleRequest(request);
         } catch (Exception e) {
             // 如果没有响应，返回500错误
