@@ -4,7 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jarvis.web.client.VllmClient;
 import com.jarvis.web.model.dto.ChatCompletionRequest;
-import org.apache.el.stream.Stream;
+import com.jarvis.web.model.dto.ChatCompletionResponse;
+import com.jarvis.web.model.dto.ChatMessage;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -17,10 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.BufferedReader;
@@ -28,7 +27,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/v1/chat/completions")
@@ -36,13 +38,27 @@ public class ChatbotController {
     @Autowired
     private VllmClient client;
 
-    @PostMapping
-    public ResponseEntity<StreamingResponseBody> handleRequest(@RequestBody ChatCompletionRequest request) throws JsonProcessingException {
+    @GetMapping
+    public ResponseBodyEmitter handleRequest(@RequestBody ChatCompletionRequest request) throws JsonProcessingException {
         try {
+//            ChatCompletionRequest request = new ChatCompletionRequest();
+//            request.setMaxTokens(1000);
+//            ChatMessage message = new ChatMessage();
+//            message.setRole("user");
+//            message.setContent("Write me 1000 words about elon musk");
+//            List<ChatMessage> messages = new ArrayList<>();
+//            messages.add(message);
+//            request.setMessages(messages);
+//            request.setN(1);
+//            request.setTemperature(1);
+//            request.setTop_p(1);
+//            request.setRepetition_penalty(1);
+//            request.setModel("Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4");
+//            request.setStream(true);
             return client.handleRequest(request);
         } catch (Exception e) {
             // 如果没有响应，返回500错误
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return null;
         }
     }
 }
