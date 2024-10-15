@@ -33,7 +33,7 @@ public class VllmClient {
         HttpPost httpPost = new HttpPost("http://192.168.8.88:8000/v1/chat/completions");
         ObjectMapper mapper = new ObjectMapper();
         String jsonRequest = mapper.writeValueAsString(request);
-        System.out.println(jsonRequest);
+//        System.out.println(jsonRequest);
         StringEntity stringEntity = new StringEntity(jsonRequest, ContentType.APPLICATION_JSON);
 
         httpPost.setEntity(stringEntity);
@@ -64,7 +64,7 @@ public class VllmClient {
                 throw new RuntimeException(e);
             }
         });
-        System.out.println("end");
+//        System.out.println("end");
         return emitter; // 返回一個空的列表
     }
 

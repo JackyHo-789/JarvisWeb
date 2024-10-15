@@ -6,6 +6,7 @@ import com.jarvis.web.client.VllmClient;
 import com.jarvis.web.model.dto.ChatCompletionRequest;
 import com.jarvis.web.model.dto.ChatCompletionResponse;
 import com.jarvis.web.model.dto.ChatMessage;
+import com.jarvis.web.service.MessageService;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -14,6 +15,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,24 +39,39 @@ import java.util.stream.Stream;
 public class ChatbotController {
     @Autowired
     private VllmClient client;
+    @Autowired
+    private MessageService service;
 
     @PostMapping
     public ResponseBodyEmitter handleRequest(@RequestBody ChatCompletionRequest request) throws JsonProcessingException {
         try {
-//            ChatCompletionRequest request = new ChatCompletionRequest();
-//            request.setMaxTokens(1000);
-//            ChatMessage message = new ChatMessage();
-//            message.setRole("user");
-//            message.setContent("Write me 1000 words about elon musk");
-//            List<ChatMessage> messages = new ArrayList<>();
-//            messages.add(message);
-//            request.setMessages(messages);
-//            request.setN(1);
-//            request.setTemperature(1);
-//            request.setTop_p(1);
-//            request.setRepetition_penalty(1);
-//            request.setModel("Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4");
-//            request.setStream(true);
+            service.process(request);
+            return client.handleRequest(request);
+        } catch (Exception e) {
+            // 如果没有响应，返回500错误
+            return null;
+        }
+    }
+
+    @GetMapping
+    public ResponseBodyEmitter handleGRequest() throws JsonProcessingException {
+        try {
+            ChatCompletionRequest request = new ChatCompletionRequest();
+            request.setMaxTokens(1000);
+            ChatMessage message = new ChatMessage();
+            message.setRole("user");
+            message.setContent("Write me 200 words about yourself");
+            List<ChatMessage> messages = new ArrayList<>();
+            messages.add(message);
+            request.setMessages(messages);
+            request.setN(1);
+            request.setTemperature(1);
+            request.setTop_p(1);
+            request.setRepetition_penalty(1);
+            request.setModel("Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4");
+            request.setStream(true);
+            service.process(request);
+            System.out.println("ss:" + request.getMessages().toString());
             return client.handleRequest(request);
         } catch (Exception e) {
             // 如果没有响应，返回500错误
