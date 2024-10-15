@@ -38,7 +38,7 @@ public class ChatbotController {
     @Autowired
     private VllmClient client;
 
-    @GetMapping
+    @PostMapping
     public ResponseBodyEmitter handleRequest(@RequestBody ChatCompletionRequest request) throws JsonProcessingException {
         try {
 //            ChatCompletionRequest request = new ChatCompletionRequest();
