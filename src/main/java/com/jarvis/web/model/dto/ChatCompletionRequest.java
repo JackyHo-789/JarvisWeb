@@ -10,26 +10,26 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChatCompletionRequest {
     @JsonProperty("model")
-    private String model;
+    private String model = "Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4";
 
     @JsonProperty("messages")
     private List<ChatMessage> messages;
 
     @JsonProperty("n")
-    private int n;
+    private String n = null;
 
     @JsonProperty("temperature")
-    private double temperature;
+    private String temperature = "0.7";
 
     @JsonProperty("max_tokens")
-    private int maxTokens;
+    private String maxTokens = "2048";
 
     @JsonProperty("stream")
-    private boolean stream;
+    private boolean stream = true;
 
     @JsonProperty("top_p")
-    private double top_p;
+    private String top_p = "0.8";
 
     @JsonProperty("repetition_penalty")
-    private double repetition_penalty;
+    private String repetition_penalty = "1.05";
 }

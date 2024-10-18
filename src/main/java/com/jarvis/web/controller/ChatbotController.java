@@ -42,17 +42,17 @@ public class ChatbotController {
     public ResponseBodyEmitter handleGRequest() throws JsonProcessingException {
         try {
             ChatCompletionRequest request = new ChatCompletionRequest();
-            request.setMaxTokens(1000);
+            request.setMaxTokens("1000");
             ChatMessage message = new ChatMessage();
             message.setRole("user");
             message.setContent("Write me 500 words about yourself");
             List<ChatMessage> messages = new ArrayList<>();
             messages.add(message);
             request.setMessages(messages);
-            request.setN(1);
-            request.setTemperature(1);
-            request.setTop_p(1);
-            request.setRepetition_penalty(1);
+            request.setN("1");
+            request.setTemperature("1");
+            request.setTop_p("1");
+            request.setRepetition_penalty("1");
             request.setModel("Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4");
             request.setStream(true);
             service.process(request);
